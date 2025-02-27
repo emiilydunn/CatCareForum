@@ -10,7 +10,7 @@ namespace CatCareForum.Controllers
         {
             
         }
-
+        //Home page
         public IActionResult Index()
         {
             return View();
