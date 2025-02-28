@@ -15,5 +15,6 @@ namespace CatCareForum.Data
         }
 
         public DbSet<CatCareForum.Models.Discussion> Discussion { get; set; } = default!;
+        public DbSet<CatCareForum.Models.Comment> Comment { get; set; } = default!;
     }
 }

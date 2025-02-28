@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CatCareForum.Data;
 using CatCareForum.Models;
+using NuGet.Versioning;
 
 namespace CatCareForum.Controllers
 {
@@ -23,6 +24,7 @@ namespace CatCareForum.Controllers
         public async Task<IActionResult> Index()
         {
             return View(await _context.Discussion.ToListAsync());
+            //or: var discussions = await _context.Discussion.ToListAsync(); returnView(discussions);
         }
 
         // GET: Discussions/Details/5
@@ -73,11 +75,15 @@ namespace CatCareForum.Controllers
                 return NotFound();
             }
 
-            var discussion = await _context.Discussion.FindAsync(id);
+            //Include the Comments list
+            var discussion = await _context.Discussion.Include(m => m.Comments).FirstOrDefaultAsync(m => m.DiscussionId == id);
+
             if (discussion == null)
+
             {
                 return NotFound();
             }
+
             return View(discussion);
         }
 

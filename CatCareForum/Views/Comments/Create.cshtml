@@ -1,0 +1,36 @@
+﻿@model CatCareForum.Models.Comment
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="mb-3">Add a Comment</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+
+            <!-- Hidden DiscussionID-->
+            <input type="hidden" value="@ViewData["DiscussionId"]" asp-for="DiscussionId" />
+
+            <div class="mb-3">
+                <p>Comment</p>
+                <textarea asp-for="Content" class="form-control" rows="5"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <input type="submit" value="Add Comment" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
