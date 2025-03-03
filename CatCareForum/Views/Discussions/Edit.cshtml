@@ -40,7 +40,7 @@
                 <a asp-controller="Comments" asp-action="Create" asp-route-id="@Model.DiscussionId" class="pe-2">Add Comment</a>
             </div>
         </form>
-        <!-- Show comments (will make look pretty later. Will maybe use bootstrap cards?)-->
+        <!-- Show comments (will make look pretty later. Will maybe use bootstrap cards?) Include time/date etc posted-->
         <!-- Not currently adding delete/edit functionality as per assignment instructions.-->
         @if (Model.Comments != null)
         {

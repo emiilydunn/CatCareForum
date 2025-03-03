@@ -12,7 +12,7 @@
         <form asp-action="Create">
 
             <!-- Hidden DiscussionID-->
-            <input type="hidden" value="@ViewData["DiscussionId"]" asp-for="DiscussionId" />
+            <input type="hidden" value="@ViewBag.DiscussionId" name="DiscussionId" />
 
             <div class="mb-3">
                 <p>Comment</p>
@@ -28,7 +28,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Discussions" asp-action="Edit" asp-route-id="@ViewBag.DiscussionId">Back to Discussion</a>
 </div>
 
 @section Scripts {

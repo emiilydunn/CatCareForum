@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CatCareForum.Data;
 using CatCareForum.Models;
 using NuGet.Versioning;
+using Microsoft.AspNetCore.Identity;
 
 namespace CatCareForum.Controllers
 {
@@ -15,6 +16,7 @@ namespace CatCareForum.Controllers
     {
         private readonly CatCareForumContext _context;
 
+        //Constructor
         public DiscussionsController(CatCareForumContext context)
         {
             _context = context;
@@ -56,12 +58,31 @@ namespace CatCareForum.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DiscussionId,Title,Content,ImageFileName,CreateDate")] Discussion discussion)
+        public async Task<IActionResult> Create([Bind("DiscussionId,Title,Content,ImageFile,CreateDate")] Discussion discussion)
         {
+
+            discussion.CreateDate = DateTime.Now;
+
+            //Rename the uploaded file to guid (unique filename). Set before photo saved in database.
+            discussion.ImageFileName = Guid.NewGuid().ToString() + Path.GetExtension(discussion.ImageFile?.FileName);
+
+
             if (ModelState.IsValid)
             {
+                //Save the photo in database
                 _context.Add(discussion);
                 await _context.SaveChangesAsync();
+
+                //Save the uploaded file after the photo is saved in the database.
+                if (discussion.ImageFile != null)
+                {
+                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "photos", discussion.ImageFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await discussion.ImageFile.CopyToAsync(fileStream);
+                    }
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(discussion);

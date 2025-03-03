@@ -1,8 +1,58 @@
-﻿@{
+﻿@model List<CatCareForum.Models.Discussion>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <div class="list-group">
+        @foreach (var discussion in Model)
+        {
+            <div class="list-group-item list-group-item-action border rounded mb-2 p-3">
+                <div class="d-flex align-items-center">
+                    <!-- Thumbnail Image -->
+                    <img src="@Url.Content("/photos/" + discussion.ImageFileName)" class="rounded me-3"
+                         alt="@discussion.Title" style="width: 80px; height: 80px; object-fit: cover;">
+
+                    <div class="flex-grow-1">
+                        <h5 class="mb-1">
+                            <a asp-action="DiscussionDetails" asp-route-id="@discussion.DiscussionId"
+                               class="text-decoration-none text-dark">
+                                @discussion.Title
+                            </a>
+                        </h5>
+                        <div>
+                            <i class="fa-regular fa-calendar-days"></i> @discussion.CreateDate.ToString("MMM d, yyyy")
+                        </div>
+                        <br>
+
+                        <!-- Full if/else statement for comment count -->
+                        <small class="text-muted">
+                            @if (discussion.Comments != null && discussion.Comments.Any())
+                            {
+                                @if (discussion.Comments.Count == 1)
+                                {
+                                    <span>1 comment</span>
+                                }
+                                else
+                                {
+                                    <span>@discussion.Comments.Count comments</span>
+                                }
+                            }
+                            else
+                            {
+                                <span>0 comments</span>
+                            }
+                        </small>
+                    </div>
+
+                    <!--GetDiscussion-->
+                    <a asp-action="DiscussionDetails" asp-route-id="@discussion.DiscussionId"
+                       class="btn btn-outline-primary btn-sm ms-3">
+                        View
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
 </div>
