@@ -9,6 +9,7 @@ using CatCareForum.Data;
 using CatCareForum.Models;
 using NuGet.Versioning;
 using Microsoft.AspNetCore.Identity;
+using AspNetCoreGeneratedDocument;
 
 namespace CatCareForum.Controllers
 {
@@ -62,7 +63,6 @@ namespace CatCareForum.Controllers
         {
 
             discussion.CreateDate = DateTime.Now;
-
             //Rename the uploaded file to guid (unique filename). Set before photo saved in database.
             discussion.ImageFileName = Guid.NewGuid().ToString() + Path.GetExtension(discussion.ImageFile?.FileName);
 
@@ -83,7 +83,7 @@ namespace CatCareForum.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             return View(discussion);
         }

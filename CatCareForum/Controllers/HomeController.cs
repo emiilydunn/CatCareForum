@@ -41,33 +41,26 @@ namespace CatCareForum.Controllers
         }
 
         //GetDiscussion (By ID) .../Home/Discussion/{id} with comments etc (I'm not sure if you wanted two different views for this instead of just one)
-        //public async IActionResult GetDiscussion(int id)
-        //{
-            //Get discusion from DB by id
-            //var discussion = await _context.Discussion
+        public async Task<IActionResult> GetDiscussion(int id)
+        {
+            var discussion = await _context.Discussion
+                .Include(d => d.Comments)
+                .FirstOrDefaultAsync(m => m.DiscussionId == id);
 
-          
-            //return View(discussion);
-        //}
+            if (discussion == null)
+            {
+                return NotFound();
+            }
 
+            // Sort comments by CreateDate (newest first)
+            discussion.Comments = discussion.Comments.OrderByDescending(c => c.CreateDate).ToList();
 
-
-
-
-
-
-
-
-
-
-
-
-
+            return View(discussion);
+        }
 
         public IActionResult Privacy()
         {
             return View();
         }
-
     }
 }

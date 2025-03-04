@@ -1,0 +1,98 @@
+﻿@model CatCareForum.Models.Discussion
+
+@{
+    ViewData["Title"] = "Get Discussion";
+}
+
+<div class="container w-75 mx-auto p-2">
+    <div class="card shadow-lg">
+
+        <h2 class="m-3 fw-bold">@Model.Title</h2>
+        <div class="card-body">
+            @if (!string.IsNullOrEmpty(Model.ImageFileName))
+            {
+                <div class="text-center mb-3">
+                    <img src="@Url.Content("/photos/" + Model.ImageFileName)"
+                         alt="@Model.Title"
+                         class="img-fluid"
+                         style="max-width: 75%; height: auto; border-radius: 10px;">
+                </div>
+            }
+            <div>
+
+            @Model.Content
+            </div>
+            <br />
+
+            <div class="text-secondary mb-2">
+                <i class="fa-regular fa-calendar-days"></i> @Model.CreateDate.ToString("MMMM dd, yyyy - h:mm tt")
+            </div>
+
+           
+            <small class="text-muted">
+                <i class="fa-solid fa-comment"></i>
+                @if (@Model.Comments != null && Model.Comments.Any())
+                {
+                    @if (Model.Comments.Count == 1)
+                    {
+                        <span>1 comment</span>
+                    }
+                    else
+                    {
+                        <span>@Model.Comments.Count comments</span>
+                    }
+                }
+                else
+                {
+                    <span>0 comments</span>
+                }
+            </small>
+
+            <br />
+
+            <!-- Comments Section -->
+            <h3 class="mt-5">Comments</h3>
+
+            @if (Model.Comments != null && Model.Comments.Any())
+            {
+                <div class="list-group mt-3">
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <div class="list-group-item list-group-item-action border rounded mb-2 p-3">
+                            <div class="d-flex align-items-center">
+                                <!-- Hardcoding profile photo in for now -->
+                                <img src="@Url.Content("~/Sample_User_Icon.png")" class="rounded-circle me-3"
+                                     alt="User" style="width: 50px; height: 50px; object-fit: cover;">
+
+                                   
+
+                                     <!--Hardcoding the same username for all right now, will change this with identity framework for the next assignment.-->
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">Username</h6>
+                                    <small class="text-secondary">
+                                        <i class="fa-regular fa-calendar-days"></i>
+                                        @comment.CreateDate.ToString("MMMM dd, yyyy - h:mm tt")
+                                    </small>
+                                    <p class="mt-2">@comment.Content</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p class="mt-3 text-muted">No comments yet.</p>
+            }
+
+            <a asp-controller="Comments" asp-action="Create" asp-route-id="@Model.DiscussionId"
+               class="btn btn-sm btn-dark">
+                Add Comment
+            </a>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-dark">Home</a>
+    </div>
+</div>

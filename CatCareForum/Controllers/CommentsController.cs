@@ -57,7 +57,7 @@ namespace CatCareForum.Controllers
                 await _context.SaveChangesAsync();
                 
                 //Redirect to /Discussions/Edit/id
-                return RedirectToAction("Edit", "Discussions", new { id = comment.DiscussionId });
+                return RedirectToAction("GetDiscussion", "Home", new { id = comment.DiscussionId });
             }
             ViewData["DiscussionId"] = comment.DiscussionId;
             return View(comment);

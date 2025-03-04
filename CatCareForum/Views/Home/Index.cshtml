@@ -5,6 +5,7 @@
 }
 
 <div class="container mt-4">
+    <h3>Discussions</h3>
     <div class="list-group">
         @foreach (var discussion in Model)
         {
@@ -16,18 +17,21 @@
 
                     <div class="flex-grow-1">
                         <h5 class="mb-1">
-                            <a asp-action="DiscussionDetails" asp-route-id="@discussion.DiscussionId"
+                            <a asp-controller="Home" asp-action="GetDiscussion" asp-route-id="@discussion.DiscussionId"
                                class="text-decoration-none text-dark">
                                 @discussion.Title
                             </a>
                         </h5>
-                        <div>
-                            <i class="fa-regular fa-calendar-days"></i> @discussion.CreateDate.ToString("MMM d, yyyy")
-                        </div>
+                    
                         <br>
 
-                        <!-- Full if/else statement for comment count -->
+                        <div class="text-secondary">
+                            <i class="fa-regular fa-calendar-days"></i> @discussion.CreateDate.ToString("MMMM dd, yyyy - h:mm tt")
+                        </div>
+
+                        <!-- Comment count -->
                         <small class="text-muted">
+                            <i class="fa-solid fa-comment"></i>
                             @if (discussion.Comments != null && discussion.Comments.Any())
                             {
                                 @if (discussion.Comments.Count == 1)
@@ -46,10 +50,11 @@
                         </small>
                     </div>
 
+                    <br />
                     <!--GetDiscussion-->
-                    <a asp-action="DiscussionDetails" asp-route-id="@discussion.DiscussionId"
-                       class="btn btn-outline-primary btn-sm ms-3">
-                        View
+                    <a asp-controller="Home" asp-action ="GetDiscussion" asp-route-id="@discussion.DiscussionId"
+                       class="btn btn-dark btn-sm ms-3">
+                        See More
                     </a>
                 </div>
             </div>

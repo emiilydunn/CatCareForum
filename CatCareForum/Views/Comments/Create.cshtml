@@ -4,33 +4,35 @@
     ViewData["Title"] = "Create";
 }
 
-<h1 class="mb-3">Add a Comment</h1>
+<div class="container w-75 mx-auto p-2">
+    <h3 class="mb-3">Add a Comment</h3>
+    <hr />
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
+    <div class="card shadow-lg p-4">
         <form asp-action="Create">
-
-            <!-- Hidden DiscussionID-->
+            <!-- Hidden DiscussionID -->
             <input type="hidden" value="@ViewBag.DiscussionId" name="DiscussionId" />
 
             <div class="mb-3">
-                <p>Comment</p>
                 <textarea asp-for="Content" class="form-control" rows="5"></textarea>
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <input type="submit" value="Add Comment" class="btn btn-primary" />
+                <input type="submit" value="Add Comment" class="btn btn-dark" />
             </div>
         </form>
     </div>
-</div>
 
-<div>
-    <a asp-controller="Discussions" asp-action="Edit" asp-route-id="@ViewBag.DiscussionId">Back to Discussion</a>
+    <!-- Back to Thread Button -->
+    <div class="mt-3">
+        <a asp-controller="Discussions" asp-action="Edit" asp-route-id="@ViewBag.DiscussionId"
+           class="btn btn-secondary">Back to Thread</a>
+    </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
